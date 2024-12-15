@@ -14,6 +14,7 @@ public class RunRepository {
     private static final Logger log = LoggerFactory.getLogger(RunRepository.class);
     private final JdbcClient jdbcClient;
 
+
     public RunRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
@@ -39,6 +40,21 @@ public class RunRepository {
     public void delete(Integer id) {
         var updated = jdbcClient.sql("DELETE from Run WHERE id = :id").param("id", id).update();
         Assert.state(updated == 1, "Failed to delete run" + id);
+    }
+
+    public int count() {
+        return jdbcClient.sql("select * from run").query().listOfRows().size();
+    }
+
+    public void saveAll(List<Run> runs) {
+        runs.stream().forEach(this::create);
+    }
+
+    public List<Run> findByLocation(String location) {
+        return jdbcClient.sql("select * from run where location = :location")
+                .param("location", location)
+                .query(Run.class)
+                .list();
     }
 
 }
