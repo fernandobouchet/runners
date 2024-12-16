@@ -20,7 +20,7 @@ public class RunRepository {
     }
 
     public List<Run> findAll() {
-        return jdbcClient.sql("select * from run").query(Run.class).list();
+        return jdbcClient.sql("SELECT * FROM run").query(Run.class).list();
     }
 
     public Optional<Run> findById(Integer id) {
@@ -43,7 +43,7 @@ public class RunRepository {
     }
 
     public int count() {
-        return jdbcClient.sql("select * from run").query().listOfRows().size();
+        return jdbcClient.sql("SELECT * FROM run").query().listOfRows().size();
     }
 
     public void saveAll(List<Run> runs) {
@@ -51,7 +51,7 @@ public class RunRepository {
     }
 
     public List<Run> findByLocation(String location) {
-        return jdbcClient.sql("select * from run where location = :location")
+        return jdbcClient.sql("SELECT * FROM run WHERE location = :location")
                 .param("location", location)
                 .query(Run.class)
                 .list();
